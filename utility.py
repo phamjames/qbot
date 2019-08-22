@@ -1,2 +1,4 @@
+from config import *
+
 def parse_command(string):
-    returstringn
+    return string[len(prefix):].split()

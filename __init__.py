@@ -3,6 +3,7 @@ from discord.ext.commands import Bot
 import asyncio
 import random
 import secrets
+from commands import *
 from utility import *
 
 
@@ -20,11 +21,18 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
+    #ignore messages sent by the bot (listen for user messages)
     if message.author == client.user:
         return
 
-    if message.startswith(client.command_prefix):
+    #parse user input
+    user_input = ""
+    if message.content.startswith(client.command_prefix):
+        user_input = parse_command(message.content)
 
+    #check if user sent a valid command
+    if user_input in commands.keys():
+        await commands[user_input](message)
 
 
 
