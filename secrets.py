@@ -1,3 +1,0 @@
-ID = '392102638621032448'
-secret = 'Ilh9h-Eo_ML-XbSRn9xSY4De_nRY_09F'
-token = 'MzkyMTAyNjM4NjIxMDMyNDQ4.DRidGA.X3kHdaHjJhHbT7Ss_CRvHT6mw2g'

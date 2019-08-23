@@ -26,13 +26,13 @@ async def on_message(message):
         return
 
     #parse user input
-    user_input = ""
+    user_input = tuple()
     if message.content.startswith(client.command_prefix):
         user_input = parse_command(message.content)
 
     #check if user sent a valid command
     if user_input in commands.keys():
-        await commands[user_input](message)
+        await commands["command"](message)
 
 
 
