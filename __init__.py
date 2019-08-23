@@ -10,6 +10,10 @@ from utility import *
 #initialize bot
 client = Bot(command_prefix='$',description='This bot invites people to play games.')
 
+# lobbies
+lobbies = {}
+
+
 @client.event
 async def on_ready():
     print("Logged in as")
@@ -26,13 +30,14 @@ async def on_message(message):
         return
 
     #parse user input
-    user_input = tuple()
+    user_input = {}
     if message.content.startswith(client.command_prefix):
+        print(message.content)
         user_input = parse_command(message.content)
 
     #check if user sent a valid command
-    if user_input in commands.keys():
-        await commands["command"](message)
+    if user_input["command"] in commands.keys():
+        await commands[user_input["command"]](message, user_input["arguments"],client)
 
 
 

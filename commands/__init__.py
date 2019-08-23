@@ -1,3 +1,3 @@
-from commands import poll
+from .start import start
 
 commands = globals()
