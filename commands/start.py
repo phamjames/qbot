@@ -26,9 +26,9 @@ def _parse_arguments(args):
         It will return the two as a tuple -> (title, description) '''
     #split arguments into title and description
     split_args = args.split()
-    print(split_args[1:])
     title = _check_title(split_args[0])
     description = _check_description((" ").join(split_args[1:]))
+
     return (title,description)
 
 
@@ -44,7 +44,6 @@ def _check_title(title):
 
 
 def _check_description(descr):
-    print(descr)
     if len(descr) <= MAX_DESCRIPTION_LENGTH:
         return descr
     raise DescriptionTooLong
