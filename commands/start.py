@@ -3,7 +3,6 @@ from config import *
 from lobby import Lobby
 from exceptions import *
 
-
 async def start(message, arguments, client):
     #split the arguments to get params for a new lobby
     try:
