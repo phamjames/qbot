@@ -12,6 +12,5 @@ def parse_command(string):
     return {"command": split_string[0], "arguments": " ".join(split_string[1:])}
 
 def add_commands_to_bot(bot, commands):
-    print(commands)
     for command in commands:
         bot.add_command(command)
