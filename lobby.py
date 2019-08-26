@@ -3,6 +3,7 @@ import re
 from config import *
 from exceptions import IncorrectTitleFormat, DescriptionTooLong
 
+lobbies = set()
 
 class Lobby:
     def __init__(self, owner, title, description):
@@ -11,9 +12,10 @@ class Lobby:
         self.description = self._check_description(description)
         self.game = None
         self.time = None
-        self.players = {str(self.owner)}
+        self.players = set()
         self.accepted = len(self.players)
         self.declined = 0
+        self.has_emoji = False
         self._parse_title()
 
     def _parse_title(self):
@@ -34,8 +36,9 @@ class Lobby:
             return descr
         raise DescriptionTooLong
 
+
     def embed(self):
         embed = discord.Embed(title=self.title, description=self.description, color=0xbb22ee)
         embed.set_thumbnail(url="https://cdn.iconscout.com/icon/premium/png-256-thumb/video-game-3-510444.png")
-        embed.add_field(name="Players accepted: " + str(self.accepted), value = "\n".join(self.players), inline = False)
+        embed.add_field(name="Players accepted: " + str(self.accepted), value = "None" if not self.players else "\n".join(self.players), inline = False)
         return embed

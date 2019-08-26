@@ -10,3 +10,7 @@ class IncorrectTitleFormat(Error):
 class DescriptionTooLong(Error):
    """Raised when the input value is too large"""
    pass
+
+class LobbyAlreadyExists(Error):
+   """Raised when the input value is too large"""
+   pass

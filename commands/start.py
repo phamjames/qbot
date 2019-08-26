@@ -1,6 +1,6 @@
 from discord.ext import commands
 from config import *
-from lobby import Lobby
+from lobby import Lobby, lobbies
 from exceptions import *
 
 
@@ -12,15 +12,26 @@ async def start(ctx, *args):
         parsed_args = _parse_arguments(args)
         title, description = parsed_args[0], parsed_args[1]
         new_lobby = Lobby(owner, title, description)
+        _add_to_lobbies(new_lobby)
+
     except IncorrectTitleFormat:
         await ctx.send(TITLE_FORMAT_INCORRECT)
     except DescriptionTooLong:
         await ctx.send(DESCR_TOO_LONG)
+    except LobbyAlreadyExists:
+        await ctx.send(LOBBY_ALREADY_EXISTS)
     else:
-
         await ctx.send(embed=new_lobby.embed())
 
 
+def _add_to_lobbies(lobby):
+    if not lobbies:
+        lobbies.add(lobby)
+    else:
+        for item in lobbies:
+            if item.title == lobby.title:
+                raise LobbyAlreadyExists
+        lobbies.add(lobby)
 
 def _parse_arguments(args):
     ''' This function will parse the arguments and split them into
