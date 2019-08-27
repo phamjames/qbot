@@ -30,7 +30,8 @@ def _add_to_lobbies(lobby):
     else:
         if lobby.title in lobbies:
             raise LobbyAlreadyExists
-        lobbies[lobby.title] = lobby
+        else:
+            lobbies[lobby.title] = lobby
 
 def _parse_arguments(args):
     ''' This function will parse the arguments and split them into
