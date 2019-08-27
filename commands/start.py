@@ -26,12 +26,11 @@ async def start(ctx, *args):
 
 def _add_to_lobbies(lobby):
     if not lobbies:
-        lobbies.add(lobby)
+        lobbies[lobby.title] = lobby
     else:
-        for item in lobbies:
-            if item.title == lobby.title:
-                raise LobbyAlreadyExists
-        lobbies.add(lobby)
+        if lobby.title in lobbies:
+            raise LobbyAlreadyExists
+        lobbies[lobby.title] = lobby
 
 def _parse_arguments(args):
     ''' This function will parse the arguments and split them into
@@ -42,5 +41,3 @@ def _parse_arguments(args):
     description = " ".join(list(args[1:]))
 
     return (title,description)
-
-

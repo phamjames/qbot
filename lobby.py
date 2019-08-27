@@ -3,7 +3,7 @@ import re
 from config import *
 from exceptions import IncorrectTitleFormat, DescriptionTooLong
 
-lobbies = set()
+lobbies = dict()
 
 class Lobby:
     def __init__(self, owner, title, description):
