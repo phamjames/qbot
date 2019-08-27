@@ -21,14 +21,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
-
-
-    if message.author.name == bot_name and message.embeds:
-        for lobby in lobbies:
-            if lobby.title == message.embeds[0].title:
-                if not lobby.has_emoji:
-                    await message.add_reaction('\N{WHITE HEAVY CHECK MARK}')
-
+    await add_checkin(message,lobbies)
 
 
 bot.run(secrets.token)

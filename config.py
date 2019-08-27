@@ -12,4 +12,5 @@ TITLE_FORMAT_INCORRECT = "Incorrect tile format. ```correct format: {}```".forma
 DESCR_TOO_LONG = "Max description length is " + str(MAX_DESCRIPTION_LENGTH)
 LOBBY_ALREADY_EXISTS = "Lobby already exists."
 
-
+# EMOJIS
+WHITE_HEAVY_CHECK_MARK = '\N{WHITE HEAVY CHECK MARK}'
