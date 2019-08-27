@@ -13,7 +13,7 @@ async def checkin_player(reaction,user,lobbies):
     message = reaction.message
     if message.author.name == bot_name and message.embeds:
         lobby_title = message.embeds[0].title
-        if lobby_title in lobbies:
+        if lobby_title in lobbies and not user.name == bot_name:
             curr_lobby = lobbies[lobby_title]
             curr_lobby.players.add(user.name)
             await message.edit(embed=curr_lobby.embed())
