@@ -1,5 +1,6 @@
 import discord
 import re
+from datetime import datetime
 from config import *
 from exceptions import IncorrectTitleFormat, DescriptionTooLong
 
@@ -19,7 +20,13 @@ class Lobby:
     def _parse_title(self):
         split_title = self.title.split("@")
         self.game = split_title[0]
-        self.time = split_title[1]
+        now = datetime.now()
+        #convert time from title into datetime object
+        game_time = datetime.strptime(split_title[1], '%I:%M%p')
+        #if lobby time has already passed, set the datetime to tomorrow
+        if (now.time() > game_time.time()):
+            now = now.replace(day=now.day+1)
+        self.time = game_time.replace(year=now.year, month=now.month, day=now.day)
 
     def _check_title(self,title):
         title_pattern = re.compile(r"^\w+@(1[0-2]|[1-9])(:[0-5][0-9])?(am|pm)$")
