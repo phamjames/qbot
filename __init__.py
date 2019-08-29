@@ -4,6 +4,7 @@ from discord.ext.tasks import loop
 from commands import commands
 import utility
 from utility import *
+from config import *
 from lobby import lobbies
 from datetime import datetime, timedelta
 
@@ -36,21 +37,31 @@ async def on_reaction_remove(reaction, user):
     # will remove user to player list
     await checkout_player(reaction,user,lobbies)
 
-@loop(seconds=10)
+@loop(seconds=1)
 async def check_time():
     if lobbies:
-        now = datetime.now()
         for lobby in utility.sorted_lobbies:
-            print(lobby.title)
-            #check if lobby time is about 10 minutes from now
-            ten_min_later = now + timedelta(minutes=10)
-            #if 10 min from now is within 15s of or after lobby time, we execute
-            print(lobby.time - ten_min_later)
-            if timedelta(minutes=-10) <= lobby.time - ten_min_later <= timedelta(seconds=10):
-                channel=bot.get_channel(485385917373087760)
-                alert = (lobby.title + ' starts soon.') + (" Get on {}".format(" ".join(["<@{}>".format(i.id) for i in lobby.players])))
-                await channel.send(alert)
-                print('ping people')
-        print("------------")
+            #check if lobby time is coming up in status is pending
+            if lobby.status == PENDING:
+                #check if lobby time is about 10 minutes from now
+                now = datetime.now()
+                ten_min_later = now + timedelta(minutes=10)
+                #if 10 min from now is within 15s of or after lobby time, we execute
+                if timedelta(minutes=-10) <= lobby.time - ten_min_later <= timedelta(seconds=5):
+                    channel=bot.get_channel(485385917373087760)
+                    alert=(lobby.title + ' starts soon.') + (" Get on {}".format(" ".join(["<@{}>".format(i.id) for i in lobby.players])))
+                    await channel.send(alert)
+                    lobby.status=ACTIVE
+            elif lobby.status == ACTIVE:
+                now = datetime.now()
+                if now >= lobby.time:
+                    lobby.status=LIVE
+            else:
+                now = datetime.now()
+                two_hour_later = now + timedelta(hours=2)
+                if two_hour_later >= lobby.time:
+                    utility.sorted_lobbies.remove(lobby)
+                    lobbies.pop(lobby.title)
+
 
 bot.run(secrets.token)
