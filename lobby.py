@@ -45,5 +45,5 @@ class Lobby:
     def embed(self):
         embed = discord.Embed(title=self.title, description=self.description, color=0xbb22ee)
         embed.set_thumbnail(url="https://cdn.iconscout.com/icon/premium/png-256-thumb/video-game-3-510444.png")
-        embed.add_field(name="Players accepted: " + str(len(self.players)), value = "None" if not self.players else "\n".join(self.players), inline = False)
+        embed.add_field(name="Players accepted: " + str(len(self.players)), value = "None" if not self.players else "\n".join([player.name for player in self.players]), inline = False)
         return embed
