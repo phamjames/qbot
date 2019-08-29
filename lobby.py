@@ -29,7 +29,7 @@ class Lobby:
         self.time = game_time.replace(year=now.year, month=now.month, day=now.day)
 
     def _check_title(self,title):
-        title_pattern = re.compile(r"^\w+@(1[0-2]|[1-9])(:[0-5][0-9])?(am|pm)$")
+        title_pattern = re.compile(r"^\w+@(1[0-2]|[1-9])(:[0-5][0-9])(am|pm)$")
         match = title_pattern.match(title.lower())
 
         if match:
