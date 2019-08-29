@@ -1,5 +1,6 @@
 import secrets
 from discord.ext.commands import Bot
+from discord.ext.tasks import loop
 from commands import commands
 from utility import *
 from lobby import lobbies
@@ -9,9 +10,9 @@ bot = Bot(command_prefix='$',description='This bot invites people to play games.
 add_commands_to_bot(bot,commands)
 
 
-
 @bot.event
 async def on_ready():
+    check_time.start(lobbies)
     print("Logged in as")
     print(bot.user.email)
     print(bot.user.name)
@@ -22,6 +23,7 @@ async def on_ready():
 async def on_message(message):
     await bot.process_commands(message)
     await add_checkin(message,lobbies)
+    print(sorted_lobbies)
 
 @bot.event
 async def on_reaction_add(reaction, user):
@@ -33,5 +35,10 @@ async def on_reaction_remove(reaction, user):
     # will remove user to player list
     await checkout_player(reaction,user,lobbies)
 
+@loop(seconds=10)
+async def check_time(lobbies):
+    if lobbies:
+        channel=bot.get_channel(485385917373087760)
+        #await channel.send('10s has passed')
 
 bot.run(secrets.token)
