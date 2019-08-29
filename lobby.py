@@ -13,6 +13,7 @@ class Lobby:
         self.description = self._check_description(description)
         self.game = None
         self.time = None
+        self.status = PENDING
         self.players = set()
         self.has_emoji = False
         self._parse_title()
@@ -43,7 +44,7 @@ class Lobby:
 
 
     def embed(self):
-        embed = discord.Embed(title=self.title, description=self.description, color=0xbb22ee)
+        embed = discord.Embed(title=self.title, description=self.description, color=self.status)
         embed.set_thumbnail(url="https://cdn.iconscout.com/icon/premium/png-256-thumb/video-game-3-510444.png")
         embed.add_field(name="Players accepted: " + str(len(self.players)), value = "None" if not self.players else "\n".join([player.name for player in self.players]), inline = False)
         return embed
