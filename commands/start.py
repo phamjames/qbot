@@ -9,6 +9,7 @@ async def start(ctx, *args):
     #split the arguments to get params for a new lobby
     try:
         owner = ctx.message.author
+
         parsed_args = _parse_arguments(args)
         title, description = parsed_args[0], parsed_args[1]
         new_lobby = Lobby(owner, title, description)

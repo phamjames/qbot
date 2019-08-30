@@ -49,19 +49,26 @@ async def check_time():
                 #if 10 min from now is within 15s of or after lobby time, we execute
                 if timedelta(minutes=-10) <= lobby.time - ten_min_later <= timedelta(seconds=5):
                     channel=bot.get_channel(485385917373087760)
-                    alert=(lobby.title + ' starts soon.') + (" Get on {}".format(" ".join(["<@{}>".format(i.id) for i in lobby.players])))
+                    alert=(lobby.title + ' starts soon.') + (" {}".format(" ".join(["<@{}>".format(i.id) for i in lobby.players])))
                     await channel.send(alert)
                     lobby.status=ACTIVE
+                    print(lobby.message.content)
+                    await lobby.message.edit(embed=lobby.embed())
+
             elif lobby.status == ACTIVE:
                 now = datetime.now()
                 if now >= lobby.time:
                     lobby.status=LIVE
+                    await lobby.message.edit(embed=lobby.embed())
+
             else:
                 now = datetime.now()
-                two_hour_later = now + timedelta(hours=2)
-                if two_hour_later >= lobby.time:
+                two_hours_later = now + timedelta(hours=2)
+                if lobby.time >= two_hours_later:
                     utility.sorted_lobbies.remove(lobby)
                     lobbies.pop(lobby.title)
+                    lobby.status=EXPIRED
+                    await lobby.message.edit(embed=lobby.embed())
 
 
 bot.run(secrets.token)

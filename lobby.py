@@ -9,6 +9,7 @@ lobbies = dict()
 class Lobby:
     def __init__(self, owner, title, description):
         self.owner = owner
+        self.message = None
         self.title = self._check_title(title)
         self.description = self._check_description(description)
         self.game = None
