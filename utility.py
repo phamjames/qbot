@@ -11,6 +11,7 @@ async def add_checkin(message,lobbies):
             curr_lobby = lobbies[lobby_title]
             curr_lobby.has_emoji = True
             curr_lobby.message = message
+            await message.pin()
             #now sort the lobbies into a list after adding a new one
             global sorted_lobbies
             sorted_lobbies = sorted(lobbies.values(), key=operator.attrgetter('time'))

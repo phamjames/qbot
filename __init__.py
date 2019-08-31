@@ -68,6 +68,7 @@ async def check_time():
                     lobbies.pop(lobby.title)
                     lobby.status=EXPIRED
                     await lobby.message.edit(embed=lobby.embed())
+                    await lobby.message.unpin()
 
 
 bot.run(secrets.token)
