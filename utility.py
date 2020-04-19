@@ -40,6 +40,38 @@ async def checkout_player(reaction,user,lobbies):
         curr_lobby.players.remove(user)
         await message.edit(embed=curr_lobby.embed())
 
+async def check_time(lobbies):
+    if lobbies:
+        for lobby in utility.sorted_lobbies:
+            #check if lobby time is coming up in status is pending
+            if lobby.status == PENDING:
+                #check if lobby time is about 10 minutes from now
+                now = datetime.now()
+                ten_min_later = now + timedelta(minutes=10)
+                #if 10 min from now is within 15s of or after lobby time, we execute
+                if timedelta(minutes=-10) <= lobby.time - ten_min_later <= timedelta(seconds=5):
+                    alert=(lobby.title + ' starts soon.') + (" {}".format(" ".join(["<@{}>".format(i.id) for i in lobby.players])))
+                    await lobby.message.channel.send(alert)
+                    lobby.status=ACTIVE
+                    print(lobby.message.content)
+                    await lobby.message.edit(embed=lobby.embed())
+
+            elif lobby.status == ACTIVE:
+                now = datetime.now()
+                if now >= lobby.time:
+                    lobby.status=LIVE
+                    await lobby.message.edit(embed=lobby.embed())
+
+            else:
+                now = datetime.now()
+                two_hours_later = now + timedelta(hours=2)
+                if lobby.time >= two_hours_later:
+                    utility.sorted_lobbies.remove(lobby)
+                    lobbies.pop(lobby.title)
+                    lobby.status=EXPIRED
+                    await lobby.message.edit(embed=lobby.embed())
+                    await lobby.message.unpin()
+
 def add_commands_to_bot(bot, commands):
     for command in commands:
         bot.add_command(command)
